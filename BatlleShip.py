@@ -80,7 +80,7 @@ def perimetrodelbarco(coordenadas,digitos):
                while cantidad !=1:
                     perimetro.remove(perimetro[i])
                     cantidad-=1
-                    
+                    #cuando borra elementos se desplazan las coordenadas y se achica len(perimetro)
      return(perimetro)
 N=int(input("Ingrese el tamaño del tablero: "))
 while N<10 or N>1000:
