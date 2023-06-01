@@ -74,13 +74,14 @@ def perimetrodelbarco(coordenadas,digitos):
         perimetro.insert(1,arribaizquierda)
         perimetro.insert(1,abajoderecha)
         perimetro.insert(1,abajoizquierda)
-c=0
+     c=0
      for i in range(len(perimetro)):
           cantidad=perimetro.count(perimetro[i])
           if cantidad>1:
               perimetro.remove(perimetro[i])
-perimetro.insert(1,"")
-c+=1                   #cuando borra elementos se desplazan las coordenadas y se achica len(perimetro)
+              perimetro.insert(1,"")
+              c+=1                   
+#cuando borra elementos se desplazan las coordenadas y se achica len(perimetro)
      return(perimetro)
 N=int(input("Ingrese el tamaño del tablero: "))
 while N<10 or N>1000:
