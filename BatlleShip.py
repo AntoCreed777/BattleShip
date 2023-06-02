@@ -39,7 +39,7 @@ def coordenadacentral(i,mensaje):
         coordenada=int(input(f"Ingrese la Coordenada Central de su {i+1}°barco: "))
     coordenada=str(coordenada)
     coordenada=coordenada.zfill(digitos*2)
-    if sinbarcosjugador.count(coordenada)==0:
+    if celdasasignacionjugador.count(coordenada)==0:
         coordenada=int(input(f"----------\nCelda invalida\nIngrese de nuevo la Coordenada Central de su {i+1}°barco: "))
         coordenada=str(coordenada)
         coordenada=coordenada.zfill(digitos*2)
@@ -80,8 +80,9 @@ def perimetrodelbarco(coordenadas,digitos):
           if cantidad>1:
               perimetro.remove(perimetro[i])
               perimetro.insert(1,"")
-              c+=1                   
-#cuando borra elementos se desplazan las coordenadas y se achica len(perimetro)
+              c+=1
+     for i in range(c):
+        perimetro.remove("")
      return(perimetro)
 N=int(input("Ingrese el tamaño del tablero: "))
 while N<10 or N>1000:
