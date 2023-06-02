@@ -139,7 +139,7 @@ for i in range(barcostotales):
     if orientacion == "V":
         CBarco=coordenadasverticales(coordenada,i)
         for j in range(len(CBarco)):
-            while sinbarcosjugador.count(CBarco[j])==0:
+            while celdasasignacionjugador.count(CBarco[j])==0:
                 coordenada=coordenadacentral(i,"Valor erroneo")
                 CBarco=coordenadasverticales(coordenada,i)
         par={}
@@ -150,13 +150,16 @@ for i in range(barcostotales):
         perimetro=perimetrodelbarco(CBarco,digitos)
         for k in range(len(perimetro)):
             x=perimetro[k]
-            celdasasignacionjugador.remove(x)
+            if celdasasignacionjugador.count(x)==0:
+                 None
+            else:
+                celdasasignacionjugador.remove(x)
 
 
     if orientacion == "H":
         CBarco=coordenadashorizontales(coordenada,i)
         for j in range(len(CBarco)):
-            while sinbarcosjugador.count(CBarco[j])==0:
+            while celdasasignacionjugador.count(CBarco[j])==0:
                 coordenada=coordenadacentral(i,"Valor erroneo")
                 CBarco=coordenadashorizontales(coordenada,i)
         par={}
@@ -166,7 +169,11 @@ for i in range(barcostotales):
              sinbarcosjugador.remove(CBarco[k])
         perimetro=perimetrodelbarco(CBarco,digitos)
         for k in range(len(perimetro)):
-            celdasasignacionjugador.remove(perimetro[k])
+            x=perimetro[k]
+            if celdasasignacionjugador.count(x)==0:
+                 None
+            else:
+                celdasasignacionjugador.remove(x)
 
 
 print(barcosjugador)
