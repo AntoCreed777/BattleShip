@@ -34,16 +34,22 @@ def coordenadashorizontales(coordenada,i):
         return(guardadomomentaneo)
 def coordenadacentral(i,mensaje):
     if len(mensaje)!=0:
-        coordenada=int(input(f"{mensaje}\nIngrese la Coordenada Central de su {i+1}°barco: "))
+        coordenada=ingresonumero(f"{mensaje}\nIngrese la Coordenada Central de su {i+1}°barco: ")
     else:
-        coordenada=int(input(f"Ingrese la Coordenada Central de su {i+1}°barco: "))
-    coordenada=str(coordenada)
+        coordenada=ingresonumero(f"Ingrese la Coordenada Central de su {i+1}°barco: ")
     coordenada=coordenada.zfill(digitos*2)
     if celdasasignacionjugador.count(coordenada)==0:
-        coordenada=int(input(f"----------\nCelda invalida\nIngrese de nuevo la Coordenada Central de su {i+1}°barco: "))
-        coordenada=str(coordenada)
+        coordenada=ingresonumero(f"----------\nCelda invalida\nIngrese de nuevo la Coordenada Central de su {i+1}°barco: ")
         coordenada=coordenada.zfill(digitos*2)
     return(coordenada)
+def orientacionf(i,mensaje):
+    orientacion=str(input(f"Ingrese la horientacion de su {i+1}°Barco(V o H): "))
+    orientacion=orientacion.lower()
+    while orientacion !="v" and orientacion !="h":
+        orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la horientacion de su {i+1}°Barco(V o H): "))
+        orientacion=orientacion.lower()
+    orientacion=orientacion.upper()
+    return(orientacion)
 def perimetrodelbarco(coordenadas,digitos):
      perimetro=[]
      for i in range(3):
@@ -84,9 +90,22 @@ def perimetrodelbarco(coordenadas,digitos):
      for i in range(c):
         perimetro.remove("")
      return(perimetro)
-N=int(input("Ingrese el tamaño del tablero: "))
+def ingresonumero(mensaje):
+    N=str(input(f"{mensaje}"))
+    while True:
+        if N[0]=="-":
+            N=str(input(f"Solo se aceptan numeros positivos\n{mensaje}"))
+        if N.isdigit()==False:
+            N=str(input(f"Solo se aceptan numeros\n{mensaje}"))
+            i=0
+        else:
+            break
+    return(N)
+N=ingresonumero("Ingrese el tamaño del tablero: ")
+N=int(N)
 while N<10 or N>1000:
-    N=int(input("----------\nValor fuera de rango, debe ser mayor o igual a 10\nIngrese el tamaño del tablero: "))
+    N=ingresonumero("----------\nValor fuera de rango, debe ser mayor o igual a 10\nIngrese el tamaño del tablero: ")
+    N=int(N)
 #Ingreso de N, el tamaño del lado del tablero
 
 x=N
@@ -124,18 +143,17 @@ sinbarcoscomputadora=jugador.copy()
 celdasasignacionjugador=jugador.copy()
 celdasasignacioncomputadora=jugador.copy()
 #Genero todas las listas a las que se les dara uso despues
-
-barcostotales=int(input("Ingrese la cantidad de barcos en juego por jugador: "))
+barcostotales=ingresonumero("Ingrese la cantidad de barcos en juego por jugador: ")
+barcostotales=int(barcostotales)
 while barcostotales<=2 or barcostotales>N:
-    barcostotales=int(input(f"----------\nValor fuera de rango\nDebe ser mayor a 2 y menor o igual a {N}\nIngrese la cantidad de barcos en juego por jugador: "))
+    barcostotales=ingresonumero(f"----------\nValor fuera de rango\nDebe ser mayor a 2 y menor o igual a {N}\nIngrese la cantidad de barcos en juego por jugador: ")
+    barcostotales=int(barcostotales)
 #Ingreso de la cantidad de barcos por jugdor
 
 barcosjugador={}    #Diccionario en que se guardaran las coordenadas del jugador.
 for i in range(barcostotales):
     coordenada=coordenadacentral(i,"")
-    orientacion=str(input(f"Ingrese la horientacion de su {i+1}°Barco(V o H): "))
-    while orientacion !="V" and orientacion !="H":
-        orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la horientacion de su {i+1}°Barco(V o H): "))
+    orientacion=orientacionf(i,"")
     if orientacion == "V":
         CBarco=coordenadasverticales(coordenada,i)
         for j in range(len(CBarco)):
