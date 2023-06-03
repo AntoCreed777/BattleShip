@@ -6,51 +6,114 @@ def eliminarcaracter(s,p,digitos):
         a=a-1
     lista=("").join(lista)
     return lista
-def coordenadasverticales(coordenada):
-        guardadomomentaneo={}
+def coordenadasverticales(coordenada,i):
+        guardadomomentaneo=[]
         coordenada=int(coordenada)
         coordenada=coordenada-1
         coordenada=str(coordenada)
         coordenada=coordenada.zfill(digitos*2)
         for q in range(3):
-                guardadomomentaneo.setdefault((i+1),coordenada)
+                guardadomomentaneo.insert(1,coordenada)
                 coordenada=int(coordenada)
                 coordenada=coordenada+1
                 coordenada=str(coordenada)
                 coordenada=coordenada.zfill(digitos*2)
         return(guardadomomentaneo)
-def coordenadashorizontales(coordenada):
-        guardadomomentaneo={}
+def coordenadashorizontales(coordenada,i):
+        guardadomomentaneo=[]
         coordenada=int(coordenada)
         coordenada=coordenada-10**digitos
         coordenada=str(coordenada)
         coordenada=coordenada.zfill(digitos*2)
         for q in range(3):
-                guardadomomentaneo.setdefault(coordenada,(i+1))
+                guardadomomentaneo.insert(1,coordenada)
                 coordenada=int(coordenada)
                 coordenada=coordenada+10**digitos
                 coordenada=str(coordenada)
                 coordenada=coordenada.zfill(digitos*2)
         return(guardadomomentaneo)
-def coordenadacentral():
-    coordenada=int(input(f"Ingrese la Coordenada Central de su {i+1}°barco: "))
-    coordenada=str(coordenada)
+def coordenadacentral(i,mensaje):
+    if len(mensaje)!=0:
+        coordenada=ingresonumero(f"{mensaje}\nIngrese la Coordenada Central de su {i+1}°barco: ")
+    else:
+        coordenada=ingresonumero(f"Ingrese la Coordenada Central de su {i+1}°barco: ")
     coordenada=coordenada.zfill(digitos*2)
-    if sinbarcosjugador.count(coordenada)==0:
-        coordenada=int(input(f"----------\nCelda invalida\nIngrese de nuevo la Coordenada Central de su {i+1}°barco: "))
-        coordenada=str(coordenada)
+    if celdasasignacionjugador.count(coordenada)==0:
+        coordenada=ingresonumero(f"----------\nCelda invalida\nIngrese de nuevo la Coordenada Central de su {i+1}°barco: ")
         coordenada=coordenada.zfill(digitos*2)
     return(coordenada)
-
-N=int(input("Ingrese el tamaño del tablero: "))
+def orientacionf(i,mensaje):
+    orientacion=str(input(f"Ingrese la horientacion de su {i+1}°Barco(V o H): "))
+    orientacion=orientacion.lower()
+    while orientacion !="v" and orientacion !="h":
+        orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la horientacion de su {i+1}°Barco(V o H): "))
+        orientacion=orientacion.lower()
+    orientacion=orientacion.upper()
+    return(orientacion)
+def perimetrodelbarco(coordenadas,digitos):
+     perimetro=[]
+     for i in range(3):
+        perimetro.insert(1,coordenadas[i])
+        x=coordenadas[i]
+        x=int(x)
+        superior=str(x+100)
+        inferior=str(x-100)
+        derecha=str(x+1)
+        izquierda=str(x-1)
+        arrribaderecha=str(x+101)
+        arribaizquierda=str(x+99)
+        abajoderecha=str(x-99)
+        abajoizquierda=str(x-101)
+        superior=superior.zfill(digitos*2)
+        inferior=inferior.zfill(digitos*2)
+        derecha=derecha.zfill(digitos*2)
+        izquierda=izquierda.zfill(digitos*2)
+        arrribaderecha=arrribaderecha.zfill(digitos*2)
+        arribaizquierda=arribaizquierda.zfill(digitos*2)
+        abajoderecha=abajoderecha.zfill(digitos*2)
+        abajoizquierda=abajoizquierda.zfill(digitos*2)
+        perimetro.insert(1,superior)
+        perimetro.insert(1,inferior)
+        perimetro.insert(1,derecha)
+        perimetro.insert(1,izquierda)
+        perimetro.insert(1,arrribaderecha)
+        perimetro.insert(1,arribaizquierda)
+        perimetro.insert(1,abajoderecha)
+        perimetro.insert(1,abajoizquierda)
+     c=0
+     for i in range(len(perimetro)):
+          cantidad=perimetro.count(perimetro[i])
+          if cantidad>1:
+              perimetro.remove(perimetro[i])
+              perimetro.insert(1,"")
+              c+=1
+     for i in range(c):
+        perimetro.remove("")
+     return(perimetro)
+def ingresonumero(mensaje):
+    N=str(input(f"{mensaje}"))
+    while True:
+        if N[0]=="-":
+            N=str(input(f"Solo se aceptan numeros positivos\n{mensaje}"))
+        if N.isdigit()==False:
+            N=str(input(f"Solo se aceptan numeros\n{mensaje}"))
+            i=0
+        else:
+            break
+    return(N)
+N=ingresonumero("Ingrese el tamaño del tablero: ")
+N=int(N)
 while N<10 or N>1000:
-    N=int(input("----------\nValor fuera de rango, debe ser mayor o igual a 10\nIngrese el tamaño del tablero: "))
+    N=ingresonumero("----------\nValor fuera de rango, debe ser mayor o igual a 10\nIngrese el tamaño del tablero: ")
+    N=int(N)
+#Ingreso de N, el tamaño del lado del tablero
 
 x=N
 digitos=0
 while x!=0:
     x=x//10
     digitos=digitos+1
+#Generacion de digitos, la cual almacena el tamaño del cual deberan ser las coordenadas
 
 p=digitos*2-1
 jugador=[]
@@ -73,28 +136,64 @@ for i in range(N):
         y=int(y)
     coordenada=[]
     x=int(x)
-computadora=jugador
-
-barcostotales=int(input("Ingrese la cantidad de barcos en juego por jugador: "))
+#Generacion de todas las posibles coordenadas en el tablero de tamaño N, con longitud de las coordenadas "digitos".
+computadora=jugador.copy()
+sinbarcosjugador=jugador.copy()
+sinbarcoscomputadora=jugador.copy()
+celdasasignacionjugador=jugador.copy()
+celdasasignacioncomputadora=jugador.copy()
+#Genero todas las listas a las que se les dara uso despues
+barcostotales=ingresonumero("Ingrese la cantidad de barcos en juego por jugador: ")
+barcostotales=int(barcostotales)
 while barcostotales<=2 or barcostotales>N:
-    barcostotales=int(input(f"----------\nValor fuera de rango\nDebe ser mayor a 2 y menor o igual a {N}\nIngrese la cantidad de barcos en juego por jugador: "))
+    barcostotales=ingresonumero(f"----------\nValor fuera de rango\nDebe ser mayor a 2 y menor o igual a {N}\nIngrese la cantidad de barcos en juego por jugador: ")
+    barcostotales=int(barcostotales)
+#Ingreso de la cantidad de barcos por jugdor
 
-barcosjugador={}
-sinbarcosjugador=jugador
+barcosjugador={}    #Diccionario en que se guardaran las coordenadas del jugador.
 for i in range(barcostotales):
-    coordenada=coordenadacentral()
-    orientacion=str(input(f"Ingrese la horientacion de su {i+1}!Barco(V o H): "))
-    while orientacion !="V" and orientacion !="H":
-        orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la horientacion de su {i+1}°Barco(V o H): "))
+    coordenada=coordenadacentral(i,"")
+    orientacion=orientacionf(i,"")
     if orientacion == "V":
-        while sinbarcosjugador.count(coordenadasverticales(coordenada))==0:
-             coordenada=coordenadacentral
-        barcosjugador.setdefault(coordenadasverticales,(i+1))
+        CBarco=coordenadasverticales(coordenada,i)
+        for j in range(len(CBarco)):
+            while celdasasignacionjugador.count(CBarco[j])==0:
+                coordenada=coordenadacentral(i,"Valor erroneo")
+                CBarco=coordenadasverticales(coordenada,i)
+        par={}
+        par.setdefault((i+1),CBarco)
+        barcosjugador.update(par)
+        for k in range(3):
+             sinbarcosjugador.remove(CBarco[k])
+        perimetro=perimetrodelbarco(CBarco,digitos)
+        for k in range(len(perimetro)):
+            x=perimetro[k]
+            if celdasasignacionjugador.count(x)==0:
+                 None
+            else:
+                celdasasignacionjugador.remove(x)
+
+
     if orientacion == "H":
-        while sinbarcosjugador.count(coordenadashorizontales(coordenada))==0:
-             coordenada=coordenadacentral
-        barcosjugador.setdefault(coordenadashorizontales,(i+1))
- 
-        #FALTA RESTRINGIR LA SELECCION DE CELDAS DEPENDIENDO DEL LUGAR
+        CBarco=coordenadashorizontales(coordenada,i)
+        for j in range(len(CBarco)):
+            while celdasasignacionjugador.count(CBarco[j])==0:
+                coordenada=coordenadacentral(i,"Valor erroneo")
+                CBarco=coordenadashorizontales(coordenada,i)
+        par={}
+        par.setdefault((i+1),CBarco)
+        barcosjugador.update(par)
+        for k in range(3):
+             sinbarcosjugador.remove(CBarco[k])
+        perimetro=perimetrodelbarco(CBarco,digitos)
+        for k in range(len(perimetro)):
+            x=perimetro[k]
+            if celdasasignacionjugador.count(x)==0:
+                 None
+            else:
+                celdasasignacionjugador.remove(x)
+
+
 print(barcosjugador)
+print(celdasasignacionjugador)
 print(sinbarcosjugador)
