@@ -192,6 +192,9 @@ while barcostotales<=2 or barcostotales>N:
     barcostotales=int(barcostotales)
 #Ingreso de la cantidad de barcos por jugdor
 
+#########################################################
+#PARTE DE ASIGNACION DEL JUGADOR#
+#########################################################
 barcosjugador={}    #Diccionario en que se guardaran las coordenadas del jugador.
 for i in range(barcostotales):
     coordenada=coordenadacentral(i,"","Jugador",N)
@@ -214,7 +217,8 @@ for i in range(barcostotales):
 
 print(f"Estas son las coordenadas de sus barcos: {barcosjugador}")
 #########################################################
-
+#PARTE DE ASIGNACION DE LA COMPUTADORA#
+#########################################################
 barcoscomputadora={}    #Diccionario en que se guardaran las coordenadas de la computadora.
 for i in range(barcostotales):
     coordenada=coordenadacentral(i,"","Computadora",N)
@@ -236,3 +240,6 @@ for i in range(barcostotales):
             celdasasignacioncomputadora.remove(x)
 
 print(barcoscomputadora)
+#########################################################
+#PARTE DE JUEGO#
+#########################################################
