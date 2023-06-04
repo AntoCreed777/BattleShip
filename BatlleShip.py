@@ -1,3 +1,4 @@
+import random
 def eliminarcaracter(s,p,digitos):
     lista=list(s)
     a=p
@@ -32,26 +33,53 @@ def coordenadashorizontales(coordenada,i):
                 coordenada=str(coordenada)
                 coordenada=coordenada.zfill(digitos*2)
         return(guardadomomentaneo)
-def coordenadacentral(i,mensaje):
-    if len(mensaje)!=0:
-        coordenada=ingresonumero(f"{mensaje}\nIngrese la Coordenada Central de su {i+1}°barco: ")
-    else:
-        coordenada=ingresonumero(f"Ingrese la Coordenada Central de su {i+1}°barco: ")
-    coordenada=coordenada.zfill(digitos*2)
-    if celdasasignacionjugador.count(coordenada)==0:
-        coordenada=ingresonumero(f"----------\nCelda invalida\nIngrese de nuevo la Coordenada Central de su {i+1}°barco: ")
+def coordenadacentral(i,mensaje,quien,N):
+    if quien=="Jugador":
+        if len(mensaje)!=0:
+            coordenada=ingresonumero(f"{mensaje}\nIngrese la Coordenada Central de su {i+1}°barco: ")
+        else:
+            coordenada=ingresonumero(f"Ingrese la Coordenada Central de su {i+1}°barco: ")
         coordenada=coordenada.zfill(digitos*2)
+        while celdasasignacionjugador.count(coordenada)==0:
+            coordenada=ingresonumero(f"----------\nCelda invalida\nIngrese de nuevo la Coordenada Central de su {i+1}°barco: ")
+            coordenada=coordenada.zfill(digitos*2)
+    if quien=="Computadora":
+        coordenada=[]
+        x=random.randint(1,N)
+        x=str(x)
+        x=x.zfill(digitos)
+        coordenada.insert(1,x)
+        y=random.randint(1,N)
+        y=str(y)
+        y=y.zfill(digitos)
+        coordenada.insert(2,y)
+        coordenada=("").join(coordenada)
+        while celdasasignacioncomputadora.count(coordenada)==0:
+            coordenada=[]
+            x=random.randint(1,N)
+            x=str(x)
+            x=x.zfill(digitos)
+            coordenada.insert(1,x)
+            y=random.randint(1,N)
+            y=str(y)
+            y=y.zfill(digitos)
+            coordenada.insert(2,y)
+            coordenada=("").join(coordenada)         
     return(coordenada)
-def orientacionf(i,coordenada,mensaje):
-    orientacion=str(input(f"Ingrese la horientacion de su {i+1}°Barco(V o H): "))
-    orientacion=orientacion.lower()
-    while orientacion !="v" and orientacion !="h":
-        orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la horientacion de su {i+1}°Barco(V o H): "))
+def orientacionf(i,coordenada,quien):
+    if quien=="Jugador":
+        orientacion=str(input(f"Ingrese la horientacion de su {i+1}°Barco(V o H): "))
         orientacion=orientacion.lower()
+        while orientacion !="v" and orientacion !="h":
+            orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la horientacion de su {i+1}°Barco(V o H): "))
+            orientacion=orientacion.lower()    
+    if quien=="Computadora":
+         orientaciones=["v","h"]
+         orientacion=random.choice(orientaciones)
     if orientacion == "v":
         CBarco=coordenadasverticales(coordenada,i)
     if orientacion == "h":
-        CBarco=coordenadashorizontales(coordenada,i)    
+        CBarco=coordenadashorizontales(coordenada,i)
     return(CBarco)
 def perimetrodelbarco(coordenadas,digitos):
      perimetro=[]
@@ -104,10 +132,15 @@ def ingresonumero(mensaje):
         else:
             break
     return(N)
-def validacioncasilla(coordenadas):
-    for j in range(len(coordenadas)):
-        if celdasasignacionjugador.count(coordenadas[j])==0:
-            return False
+def validacioncasilla(coordenadas,quien):
+    if quien=="Jugador":
+        for j in range(len(coordenadas)):
+            if celdasasignacionjugador.count(coordenadas[j])==0:
+                return False
+    if quien=="Computadora":
+        for j in range(len(coordenadas)):
+            if celdasasignacioncomputadora.count(coordenadas[j])==0:
+                return False
     return True     
 
 N=ingresonumero("Ingrese el tamaño del tablero: ")
@@ -161,11 +194,11 @@ while barcostotales<=2 or barcostotales>N:
 
 barcosjugador={}    #Diccionario en que se guardaran las coordenadas del jugador.
 for i in range(barcostotales):
-    coordenada=coordenadacentral(i,"")
-    CBarco=orientacionf(i,coordenada,"")
-    while validacioncasilla(CBarco)==False:
-        coordenada=coordenadacentral(i,"Valor erroneo")
-        CBarco=orientacionf(i,coordenada,"")
+    coordenada=coordenadacentral(i,"","Jugador",N)
+    CBarco=orientacionf(i,coordenada,"Jugador")
+    while validacioncasilla(CBarco,"Jugador")==False:
+        coordenada=coordenadacentral(i,"Valor erroneo","Jugador",N)
+        CBarco=orientacionf(i,coordenada,"Jugador")
     par={}
     par.setdefault((i+1),CBarco)
     barcosjugador.update(par)
@@ -179,7 +212,27 @@ for i in range(barcostotales):
         else:
             celdasasignacionjugador.remove(x)
 
+print(f"Estas son las coordenadas de sus barcos: {barcosjugador}")
+#########################################################
 
-print(barcosjugador)
-print(celdasasignacionjugador)
-print(sinbarcosjugador)
+barcoscomputadora={}    #Diccionario en que se guardaran las coordenadas de la computadora.
+for i in range(barcostotales):
+    coordenada=coordenadacentral(i,"","Computadora",N)
+    CBarco=orientacionf(i,coordenada,"Computadora")
+    while validacioncasilla(CBarco,"Computadora")==False:
+        coordenada=coordenadacentral(i,"","Computadora",N)
+        CBarco=orientacionf(i,coordenada,"Computadora")
+    par={}
+    par.setdefault((i+1),CBarco)
+    barcoscomputadora.update(par)
+    for k in range(3):
+            sinbarcoscomputadora.remove(CBarco[k])
+    perimetro=perimetrodelbarco(CBarco,digitos)
+    for k in range(len(perimetro)):
+        x=perimetro[k]
+        if celdasasignacioncomputadora.count(x)==0:
+                None
+        else:
+            celdasasignacioncomputadora.remove(x)
+
+print(barcoscomputadora)
