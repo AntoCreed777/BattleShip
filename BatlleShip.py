@@ -124,6 +124,8 @@ def perimetrodelbarco(coordenadas,digitos):
 def ingresonumero(mensaje):
     N=str(input(f"{mensaje}"))
     while True:
+        while N=="":
+            N=str(input(f"Por favor, ingrese un dato\n{mensaje}"))
         if N[0]=="-":
             N=str(input(f"Solo se aceptan numeros positivos\n{mensaje}"))
         if N.isdigit()==False:
