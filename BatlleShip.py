@@ -144,43 +144,19 @@ def validacioncasilla(coordenadas,quien):
             if celdasasignacioncomputadora.count(coordenadas[j])==0:
                 return False
     return True     
-def ataquebarcos(barcoscomputadora,barcosjugador,jugador,computadora,quien):
-    if quien=="Jugador":
-        coordenada=ingresonumero("Ingrese su coordenada de ataque: ")
-        while jugador.count(coordenada)==0:
-            coordenada=ingresonumero("Casilla invalida\nIngrese su coordenada de ataque: ")
-        jugador=jugador.remove(coordenada)
-        for i in range(len(barcoscomputadora)):
-            if coordenada in barcoscomputadora[i]:
-                barcoscomputadora=barcoscomputadora.remove(coordenada)
-                print("Has dado en un barco")
-        if len(barcoscomputadora.keys())==0:
-             Ganador="Jugador"
-        else:
-             print("Has dado en el agua")
-             sinbarcoscomputadora=sinbarcoscomputadora.remove(coordenada)
-          
-    if quien=="Computadora":
-        coordenada=random.randchoice(computadora)
-        if (barcosjugador.values()).count(coordenada)==1:
-             barcosjugador=barcosjugador.remove(coordenada)
-             print("Te han dado en un barco")
-        if len(barcosjugador.keys())==0:
-             Ganador="Computadora"
-        else:
-             print("No te han dado")
-             sinbarcosjugador=sinbarcosjugador.remove(coordenada)
 def hundimiento(quien):
      if quien=="Jugador":
           for i in range(len(barcoscomputadora)):
                if len(barcoscomputadora[i])==0:
                     print("!!!BARCO HUNDIDO, CADA VES MÁS CERCA DE LA VICTORIA CAMARADA!!!")
                     barcoscomputadora.pop(i)
+                    break
      if quien=="Computadora":
           for i in range(len(barcosjugador)):
                if len(barcosjugador[i])==0:
                     print("!!!NOS HAN HUNDIDO UN BARCO, DEBEMOS RESPONDER!!!")
-                    barcosjugador.pop(i)                  
+                    barcosjugador.pop(i)
+                    break                 
      
           
 N=ingresonumero("Ingrese el tamaño del tablero: ")
@@ -235,16 +211,14 @@ while barcostotales<=2 or barcostotales>N:
 #########################################################
 #PARTE DE ASIGNACION DEL JUGADOR#
 #########################################################
-barcosjugador={}    #Diccionario en que se guardaran las coordenadas del jugador.
+barcosjugador=[]    #Diccionario en que se guardaran las coordenadas del jugador.
 for i in range(barcostotales):
     coordenada=coordenadacentral(i,"","Jugador",N)
     CBarco=orientacionf(i,coordenada,"Jugador")
     while validacioncasilla(CBarco,"Jugador")==False:
         coordenada=coordenadacentral(i,"Valor erroneo","Jugador",N)
         CBarco=orientacionf(i,coordenada,"Jugador")
-    par={}
-    par.setdefault((i+1),CBarco)
-    barcosjugador.update(par)
+    barcosjugador.append(CBarco)
     for k in range(3):
             sinbarcosjugador.remove(CBarco[k])
     perimetro=perimetrodelbarco(CBarco,digitos)
@@ -259,16 +233,14 @@ print(f"Estas son las coordenadas de sus barcos: {barcosjugador}")
 #########################################################
 #PARTE DE ASIGNACION DE LA COMPUTADORA#
 #########################################################
-barcoscomputadora={}    #Diccionario en que se guardaran las coordenadas de la computadora.
+barcoscomputadora=[]    #Diccionario en que se guardaran las coordenadas de la computadora.
 for i in range(barcostotales):
     coordenada=coordenadacentral(i,"","Computadora",N)
     CBarco=orientacionf(i,coordenada,"Computadora")
     while validacioncasilla(CBarco,"Computadora")==False:
         coordenada=coordenadacentral(i,"","Computadora",N)
         CBarco=orientacionf(i,coordenada,"Computadora")
-    par={}
-    par.setdefault((i+1),CBarco)
-    barcoscomputadora.update(par)
+    barcoscomputadora.append(CBarco)
     for k in range(3):
             sinbarcoscomputadora.remove(CBarco[k])
     perimetro=perimetrodelbarco(CBarco,digitos)
@@ -286,16 +258,59 @@ print(barcoscomputadora)
 
 comienzo=str(input("Ingrese quien comienza: "))
 comienzo=comienzo.lower()
-while comienzo!="jugador" and comienzo!="jomputadora":
+while comienzo!="jugador" and comienzo!="computadora":
      comienzo=str(input("Ingrese quien comienza: "))
 while True:
      if comienzo=="jugador":
-          ataquebarcos(barcoscomputadora,barcosjugador,jugador,computadora,"Jugador")
-          hundimiento("Jugador")
-          print(barcosjugador)
-          comienzo="Computadora"
+        coordenada=ingresonumero("Ingrese su coordenada de ataque: ")
+        while jugador.count(coordenada)==0:
+            coordenada=ingresonumero("Casilla invalida\nIngrese su coordenada de ataque: ")
+        jugador.remove(coordenada)
+        for i in range(len(barcoscomputadora)):
+            a=0
+            for j in range(len(barcoscomputadora[i])):
+                if barcoscomputadora[i][j]==coordenada:
+                    (barcoscomputadora[i]).remove(coordenada)
+                    print("Has dado en un barco")
+                    a=1
+                    break
+            if a==1:
+                 break
+        if sinbarcoscomputadora.count(coordenada)==1:
+             print("Has dado en el agua")
+             sinbarcoscomputadora.remove(coordenada)
+        
+        
+        hundimiento("Jugador")
+        if len(barcoscomputadora)==0:
+             Ganador="Jugador"
+             break
+        comienzo="computadora"
+
+
      if comienzo=="computadora":
-          ataquebarcos(barcoscomputadora,barcosjugador,jugador,computadora,"Computadora")
-          hundimiento("Computadora")
-          print(barcoscomputadora)
-          comienzo="Jugador"
+        coordenada=random.choice(computadora)
+        computadora.remove(coordenada)
+        for i in range(len(barcosjugador)):
+            a=0
+            for j in range(len(barcosjugador[i])):
+                if barcosjugador[i][j]==coordenada:
+                    (barcosjugador[i]).remove(coordenada)
+                    print("----------\nLe han dado a uno de nuestros barcos\n----------")
+                    a=1
+                    break
+            if a==1:
+                 break
+        if sinbarcosjugador.count(coordenada)==1:
+             print("----------\nNo te han dado, el enemigo disparo al agua\n----------")
+             sinbarcosjugador.remove(coordenada)          
+          
+        hundimiento("Computadora")
+        if len(barcosjugador)==0:
+             Ganador="Computadora"
+             break
+        comienzo="jugador"
+if Ganador=="Jugador":
+     print("Bien hecho camarada, habéis demostrado vuestra valia, POR LA MADRE PATRIA!!!!!")
+if Ganador=="Computadora":
+     print("NOS HAN DERROTADO, RETIRADAAAA!!!!")
