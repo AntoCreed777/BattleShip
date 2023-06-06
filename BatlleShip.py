@@ -144,7 +144,45 @@ def validacioncasilla(coordenadas,quien):
             if celdasasignacioncomputadora.count(coordenadas[j])==0:
                 return False
     return True     
-
+def ataquebarcos(barcoscomputadora,barcosjugador,jugador,computadora,quien):
+    if quien=="Jugador":
+        coordenada=ingresonumero("Ingrese su coordenada de ataque: ")
+        while jugador.count(coordenada)==0:
+            coordenada=ingresonumero("Casilla invalida\nIngrese su coordenada de ataque: ")
+        jugador=jugador.remove(coordenada)
+        for i in range(len(barcoscomputadora)):
+            if coordenada in barcoscomputadora[i]:
+                barcoscomputadora=barcoscomputadora.remove(coordenada)
+                print("Has dado en un barco")
+        if len(barcoscomputadora.keys())==0:
+             Ganador="Jugador"
+        else:
+             print("Has dado en el agua")
+             sinbarcoscomputadora=sinbarcoscomputadora.remove(coordenada)
+          
+    if quien=="Computadora":
+        coordenada=random.randchoice(computadora)
+        if (barcosjugador.values()).count(coordenada)==1:
+             barcosjugador=barcosjugador.remove(coordenada)
+             print("Te han dado en un barco")
+        if len(barcosjugador.keys())==0:
+             Ganador="Computadora"
+        else:
+             print("No te han dado")
+             sinbarcosjugador=sinbarcosjugador.remove(coordenada)
+def hundimiento(quien):
+     if quien=="Jugador":
+          for i in range(len(barcoscomputadora)):
+               if len(barcoscomputadora[i])==0:
+                    print("!!!BARCO HUNDIDO, CADA VES MÁS CERCA DE LA VICTORIA CAMARADA!!!")
+                    barcoscomputadora.pop(i)
+     if quien=="Computadora":
+          for i in range(len(barcosjugador)):
+               if len(barcosjugador[i])==0:
+                    print("!!!NOS HAN HUNDIDO UN BARCO, DEBEMOS RESPONDER!!!")
+                    barcosjugador.pop(i)                  
+     
+          
 N=ingresonumero("Ingrese el tamaño del tablero: ")
 N=int(N)
 while N<10 or N>1000:
@@ -245,3 +283,19 @@ print(barcoscomputadora)
 #########################################################
 #PARTE DE JUEGO#
 #########################################################
+
+comienzo=str(input("Ingrese quien comienza: "))
+comienzo=comienzo.lower()
+while comienzo!="jugador" and comienzo!="jomputadora":
+     comienzo=str(input("Ingrese quien comienza: "))
+while True:
+     if comienzo=="jugador":
+          ataquebarcos(barcoscomputadora,barcosjugador,jugador,computadora,"Jugador")
+          hundimiento("Jugador")
+          print(barcosjugador)
+          comienzo="Computadora"
+     if comienzo=="computadora":
+          ataquebarcos(barcoscomputadora,barcosjugador,jugador,computadora,"Computadora")
+          hundimiento("Computadora")
+          print(barcoscomputadora)
+          comienzo="Jugador"
