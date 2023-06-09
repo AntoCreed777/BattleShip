@@ -256,7 +256,7 @@ print(barcoscomputadora)
 #PARTE DE JUEGO#
 #########################################################
 
-comienzo=str(input("Ingrese quien comienza: "))
+comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
 comienzo=comienzo.lower()
 while comienzo!="jugador" and comienzo!="computadora":
      comienzo=str(input("Ingrese quien comienza: "))
