@@ -162,7 +162,7 @@ def hundimiento(quien):
 N=ingresonumero("Ingrese el tamaño del tablero: ")
 N=int(N)
 while N<10 or N>1000:
-    N=ingresonumero("----------\nValor fuera de rango, debe ser mayor o igual a 10\nIngrese el tamaño del tablero: ")
+    N=ingresonumero("----------\nValor fuera de rango, debe ser mayor o igual a 10 y menor o igual a 1000\nIngrese el tamaño del tablero: ")
     N=int(N)
 #Ingreso de N, el tamaño del lado del tablero
 
