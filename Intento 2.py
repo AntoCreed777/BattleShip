@@ -14,17 +14,18 @@ def ingresonumero(mensaje):
             break
     return(N)
 def matriz(N):
-    aux=[""]
+    aux=""
     fila=[]
     matriz=[]
     for i in range(N):
         fila.append(aux)
     for i in range(N):
-        matriz.append(fila)
+        fila2=fila.copy()
+        matriz.append(fila2)
     return(matriz)
 def mostrarmatriz(matriz):
     for i in range(N):
-        print(f"{matriz(N)[i]}\n")
+        print(f"{matriz[i]}\n")
 def barco(i,mensaje,quien,N,matriz):
     if quien=="Jugador":
         if len(mensaje)!=0:
@@ -87,5 +88,9 @@ while barcostotales<2 or barcostotales>N:
 
 for i in range(barcostotales):
     cbarco=validacionbarco(i,barco(i,"","Jugador",N,matriz),matriz)
-    print(cbarco)
-    None
+    for j in range(3):
+        y=(cbarco[j][1]-1)
+        x=(cbarco[j][0]-1)
+        matriz[y][x]="B"
+    mostrarmatriz(matriz)
+    print(f"Estas son las coordenadas de su barco{cbarco}")
