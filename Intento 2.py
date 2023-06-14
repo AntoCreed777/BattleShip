@@ -14,7 +14,7 @@ def ingresonumero(mensaje):
             break
     return(N)
 def matriz(N):
-    aux=""
+    aux=" "
     fila=[]
     matriz=[]
     for i in range(N):
@@ -24,7 +24,7 @@ def matriz(N):
         matriz.append(fila2)
     return(matriz)
 def mostrarmatriz(matriz):
-    for i in range(N):
+    for i in range(-1,-(N+1),-1):
         print(f"{matriz[i]}\n")
 def barco(i,mensaje,quien,N,matriz):
     if quien=="Jugador":
@@ -41,10 +41,16 @@ def barco(i,mensaje,quien,N,matriz):
             orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la horientacion de su {i+1}°Barco(V o H): "))
             orientacion=orientacion.lower()
         cbarco=coordenadao(x,y,orientacion)
-        for j in range(3):
-            while cbarco[j][1]==0 or cbarco[j][1]>(len(matriz)) or cbarco[j][0]==0 or cbarco[j][0]>(len(matriz)):
-                cbarco=barco(i,"El barco no es valido","Jugador",N,matriz)
-        return(cbarco)
+    if quien=="Computadora":
+        x=random.randint(1,N)
+        y=random.randint(1,N)
+        while matriz[y-1][x-1]=="B" or matriz[y-1][x-1]=="P":
+            x=random.randint(1,N)
+            y=random.randint(1,N)
+        orientaciones=["v","h"]
+        orientacion=random.choice(orientaciones)
+        cbarco=coordenadao(x,y,orientacion)
+    return(cbarco)
 def coordenadao(x,y,orientacion):
     cbarco=[]
     c=[]
@@ -65,11 +71,15 @@ def coordenadao(x,y,orientacion):
             x=x+1
             c=[]
     return(cbarco)
-def validacionbarco(i,cbarco,matriz):
+def validacionbarco(cbarco,matriz):
     for j in range(3):
-        while matriz[(cbarco[j][1])-1][(cbarco[j][0])-1]=="B" or matriz[(cbarco[j][1])-1][(cbarco[j][0])-1]=="P":
-            cbarco=barco(i,"El barco no es valido","Jugador",N,matriz)
-    return(cbarco)
+        if cbarco[j][1]==0 or cbarco[j][0]==0:
+            return(False)
+        elif cbarco[j][1]>(len(matriz)) or cbarco[j][0]>(len(matriz)):
+            return(False)
+        elif matriz[(cbarco[j][1])-1][(cbarco[j][0])-1]=="B" or matriz[(cbarco[j][1])-1][(cbarco[j][0])-1]=="P":
+            return(False)
+    return(True)
 def perimetro1(cbarco,digitos):
      perimetro=[]
      coordenadas=[]
@@ -144,11 +154,13 @@ while x!=0:
     x=x//10
     digitos=digitos+1
 
-matriz=matriz(N)       #Genera una matriz hecha por listas de N Filas y N Columnas 
+matrizjugador=matriz(N)              #Genera una matriz hecha por listas de N Filas y N Columnas 
+matrizcompu=matriz(N)
 
 barcostotales=ingresonumero("Ingrese la cantidad de barcos en juego por jugador: ")     #Ingreso de la cantidad de barcos por jugdor
 while barcostotales<2 or barcostotales>N:
     barcostotales=ingresonumero(f"----------\nValor fuera de rango\nDebe ser mayor o igual a 2 y menor o igual a {N}\nIngrese la cantidad de barcos en juego por jugador: ")
+
 
 #########################################################
 #PARTE DE ASIGNACION DEL JUGADOR#
@@ -156,31 +168,36 @@ while barcostotales<2 or barcostotales>N:
 barcosjugador=[]
 barcoa=[]
 for i in range(barcostotales):
-    cbarco=validacionbarco(i,barco(i,"","Jugador",N,matriz),matriz)
+    cbarco=barco(i,"","Jugador",N,matrizjugador)
+    while validacionbarco(cbarco,matrizjugador)==False:
+        cbarco=barco(i,"Barco Invalido","Jugador",N,matrizjugador)
     for j in range(3):
         y=(cbarco[j][1]-1)
         x=(cbarco[j][0]-1)
-        matriz[y][x]="B"
+        matrizjugador[y][x]="B"
+        
         aux=str(cbarco[i][0]).zfill(digitos)+str(cbarco[i][1]).zfill(digitos)
         barcoa.insert(0,aux)
     print(f"Estas son las coordenadas de su barco{cbarco}")
     barcosjugador.append(barcoa)
-    matriz=perimetro2(cbarco,digitos,matriz)
-    mostrarmatriz(matriz)
+    matrizjugador=perimetro2(cbarco,digitos,matrizjugador)
+    mostrarmatriz(matrizjugador)
 #########################################################
 #PARTE DE ASIGNACION DE LA COMPUTADORA#
 #########################################################
-matrizcompu=matriz.copy()
 barcoscomputadora=[]
 barcoa=[]
 for i in range(barcostotales):
-    cbarco=validacionbarco(i,barco(i,"","Computadora",N,matrizcompu),matrizcompu)
+    cbarco=barco(i,"","Computadora",N,matrizcompu)
+    while validacionbarco(cbarco,matrizcompu)==False:
+        cbarco=barco(i,"","Computadora",N,matrizcompu)
     for j in range(3):
         y=(cbarco[j][1]-1)
         x=(cbarco[j][0]-1)
-        matriz[y][x]="B"
+        matrizcompu[y][x]="B"
         aux=str(cbarco[i][0]).zfill(digitos)+str(cbarco[i][1]).zfill(digitos)
         barcoa.insert(0,aux)
     barcoscomputadora.append(barcoa)
     matrizcompu=perimetro2(cbarco,digitos,matrizcompu)
-    mostrarmatriz(matrizcompu)
+print("\n\n")
+mostrarmatriz(matrizcompu)
