@@ -1,4 +1,5 @@
 import random
+import os
 def ingresonumero(mensaje):
     N=str(input(f"{mensaje}"))
     while True:
@@ -191,10 +192,12 @@ for i in range(barcostotales):
         matrizjugador[y][x]="B"
         aux=str(cbarco[i][0]).zfill(digitos)+str(cbarco[i][1]).zfill(digitos)
         barcoa.insert(0,aux)
-    print(f"Estas son las coordenadas de su barco{cbarco}")
     barcosjugador.append(barcoa)
     matrizjugadorByP=perimetro2(cbarco,digitos,matrizjugadorByP)
+    os.system("cls")
+    print(f"Estas son las coordenadas de su barco{cbarco}")
     mostrarmatriz(matrizjugadorByP)
+    
 #########################################################
 #PARTE DE ASIGNACION DE LA COMPUTADORA#
 #########################################################
@@ -241,9 +244,9 @@ while True:
             aux=[]
             x=str(x)
             x=x.zfill(digitos)
-            aux=aux.append(x)
+            aux.insert(0,x)
             y=str(y)
-            y=y.zfill(digitos)
+            y.zfill(digitos)
             aux=aux.insert(1,y)
             barcoscomputadora.remove(aux)
         else:
@@ -253,6 +256,9 @@ while True:
         if len(barcoscomputadora)==0:
             Ganador="Jugador"
             break
+        os.system("cls")
+        mostrarmatriz(matrizcompu)
+        comienzo="computadora"
      if comienzo=="computadora":
         x=random.randint(1,N)
         y=random.randint(1,N)
@@ -264,10 +270,10 @@ while True:
             matrizjugador[y-1][x-1]="X"
             aux=[]
             x=str(x)
-            x=x.zfill(digitos)
+            x.zfill(digitos)
             aux=aux.append(x)
             y=str(y)
-            y=y.zfill(digitos)
+            y.zfill(digitos)
             aux=aux.insert(1,y)
             barcosjugador.remove(aux)
         else:
@@ -277,6 +283,7 @@ while True:
         if len(barcosjugador)==0:
             Ganador="Computador"
             break
+        comienzo="jugador"
 if Ganador=="Jugador":
      print("Bien hecho camarada, habéis demostrado vuestra valia, POR LA MADRE PATRIA!!!!!")
 if Ganador=="Computadora":
