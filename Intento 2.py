@@ -194,8 +194,9 @@ for i in range(barcostotales):
         barcoa.insert(0,aux)
     barcosjugador.append(barcoa)
     barcoa=[]
-    matrizjugadorByP=perimetro2(cbarco,digitos,matrizjugadorByP)
-    os.system("cls")
+    if N<20:
+        matrizjugadorByP=perimetro2(cbarco,digitos,matrizjugadorByP)
+        os.system("cls")
     print(f"Estas son las coordenadas de su barco{cbarco}")
     mostrarmatriz(matrizjugadorByP)
     
