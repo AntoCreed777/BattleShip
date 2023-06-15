@@ -190,9 +190,10 @@ for i in range(barcostotales):
         x=(cbarco[j][0]-1)
         matrizjugadorByP[y][x]="B"
         matrizjugador[y][x]="B"
-        aux=str(cbarco[i][0]).zfill(digitos)+str(cbarco[i][1]).zfill(digitos)
+        aux=str(cbarco[j][0]).zfill(digitos)+str(cbarco[j][1]).zfill(digitos)
         barcoa.insert(0,aux)
     barcosjugador.append(barcoa)
+    barcoa=[]
     matrizjugadorByP=perimetro2(cbarco,digitos,matrizjugadorByP)
     os.system("cls")
     print(f"Estas son las coordenadas de su barco{cbarco}")
@@ -212,9 +213,10 @@ for i in range(barcostotales):
         x=(cbarco[j][0]-1)
         matrizcompuByP[y][x]="B"
         matrizcompu[y][x]="B"
-        aux=str(cbarco[i][0]).zfill(digitos)+str(cbarco[i][1]).zfill(digitos)
+        aux=str(cbarco[j][0]).zfill(digitos)+str(cbarco[j][1]).zfill(digitos)
         barcoa.insert(0,aux)
     barcoscomputadora.append(barcoa)
+    barcoa=[]
     matrizcompuByP=perimetro2(cbarco,digitos,matrizcompuByP)
 #print("\n\n")
 #mostrarmatriz(matrizjugador)
@@ -228,7 +230,7 @@ matriztiroscompu=matriz(N)
 matriztirosjugador=matriz(N)
 
 comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
-comienzo=comienzo.lower()
+comienzo.lower()
 while comienzo!="jugador" and comienzo!="computadora":
      comienzo=str(input("Ingrese quien comienza: "))
 while True:
@@ -240,17 +242,21 @@ while True:
             y=ingresonumero(f"Ingrese nuevamente la Coordenada de ataque 'Y': ")
         if matrizcompu[y-1][x-1]=="B":
             print("Has dado en un barco")
+            matriztirosjugador[y-1][x-1]="X"
             matrizcompu[y-1][x-1]="X"
-            aux=[]
-            x=str(x)
-            x=x.zfill(digitos)
-            aux.insert(0,x)
-            y=str(y)
-            y.zfill(digitos)
-            aux=aux.insert(1,y)
-            barcoscomputadora.remove(aux)
+            aux=str(x).zfill(digitos)+str(y).zfill(digitos)
+            for i in range(len(barcoscomputadora)):
+                a=0
+                for j in range(len(barcoscomputadora[i])):
+                    if barcoscomputadora[i][j]==aux:
+                        (barcoscomputadora[i]).remove(aux)
+                        a=1
+                        break
+                if a==1:
+                    break
         else:
             print("Has dado al agua")
+            matriztirosjugador[y-1][x-1]="A"
             matrizcompu[y-1][x-1]="A"
         hundimiento("Jugador")
         if len(barcoscomputadora)==0:
@@ -267,17 +273,27 @@ while True:
             y=random.randint(1,N)
         if matrizjugador[y-1][x-1]=="B":
             print("Nos han dado en un barco")
+            matriztiroscompu[y-1][x-1]="X"
             matrizjugador[y-1][x-1]="X"
             aux=[]
             x=str(x)
             x.zfill(digitos)
-            aux=aux.append(x)
             y=str(y)
             y.zfill(digitos)
-            aux=aux.insert(1,y)
-            barcosjugador.remove(aux)
+            aux.insert(1,y)
+            aux=str(x).zfill(digitos)+str(y).zfill(digitos)
+            for i in range(len(barcosjugador)):
+                a=0
+                for j in range(len(barcosjugador[i])):
+                    if barcosjugador[i][j]==aux:
+                        (barcosjugador[i]).remove(aux)
+                        a=1
+                        break
+                if a==1:
+                    break
         else:
             print("No nos han dado")
+            matriztiroscompu[y-1][x-1]="A"
             matrizjugador[y-1][x-1]="A"
         hundimiento("Computador")
         if len(barcosjugador)==0:
