@@ -8,7 +8,6 @@ def ingresonumero(mensaje):
             N=str(input(f"\nSolo se aceptan numeros positivos\n{mensaje}"))
         elif N.isdigit()==False:
             N=str(input(f"\nSolo se aceptan numeros\n{mensaje}"))
-            i=0
         else:
             N=int(N)
             break
@@ -142,7 +141,19 @@ def perimetro2(cbarco,digitos,matriz):
         if x<len(matriz) and y<len(matriz) and y>=0 and x>=0:
             matriz[y][x]="P"
     return(matriz)
-    
+def hundimiento(quien):
+     if quien=="Jugador":
+          for i in range(len(barcoscomputadora)):
+               if len(barcoscomputadora[i])==0:
+                    print("!!!BARCO HUNDIDO, CADA VES MÁS CERCA DE LA VICTORIA CAMARADA!!!")
+                    barcoscomputadora.pop(i)
+                    break
+     if quien=="Computadora":
+          for i in range(len(barcosjugador)):
+               if len(barcosjugador[i])==0:
+                    print("!!!NOS HAN HUNDIDO UN BARCO, DEBEMOS RESPONDER!!!")
+                    barcosjugador.pop(i)
+                    break
     
 N=ingresonumero("Ingrese el tamaño del tablero: ")              #Ingreso de N, el tamaño del lado del tablero
 while N<10 or N>1000:
@@ -207,3 +218,66 @@ for i in range(barcostotales):
 #print("\n\n")
 #mostrarmatriz(matrizcompu)
 
+#########################################################
+#PARTE DE JUEGO#
+#########################################################
+matriztiroscompu=matriz(N)
+matriztirosjugador=matriz(N)
+
+comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
+comienzo=comienzo.lower()
+while comienzo!="jugador" and comienzo!="computadora":
+     comienzo=str(input("Ingrese quien comienza: "))
+while True:
+     if comienzo=="jugador":
+        x=ingresonumero(f"Ingrese la Coordenada de ataque 'X': ")
+        y=ingresonumero(f"Ingrese la Coordenada de ataque 'Y': ")
+        while x>N or y>N or matriztirosjugador[y-1][x-1]=="X" or  matriztirosjugador[y-1][x-1]=="A":
+            x=ingresonumero(f"Ingrese nuevamente la Coordenada de ataque 'X': ")
+            y=ingresonumero(f"Ingrese nuevamente la Coordenada de ataque 'Y': ")
+        if matrizcompu[y-1][x-1]=="B":
+            print("Has dado en un barco")
+            matrizcompu[y-1][x-1]="X"
+            aux=[]
+            x=str(x)
+            x=x.zfill(digitos)
+            aux=aux.append(x)
+            y=str(y)
+            y=y.zfill(digitos)
+            aux=aux.insert(1,y)
+            barcoscomputadora.remove(aux)
+        else:
+            print("Has dado al agua")
+            matrizcompu[y-1][x-1]="A"
+        hundimiento("Jugador")
+        if len(barcoscomputadora)==0:
+            Ganador="Jugador"
+            break
+     if comienzo=="computadora":
+        x=random.randint(1,N)
+        y=random.randint(1,N)
+        while matriztiroscompu[y-1][x-1]=="X" or  matriztiroscompu[y-1][x-1]=="A":
+            x=random.randint(1,N)
+            y=random.randint(1,N)
+        if matrizjugador[y-1][x-1]=="B":
+            print("Nos han dado en un barco")
+            matrizjugador[y-1][x-1]="X"
+            aux=[]
+            x=str(x)
+            x=x.zfill(digitos)
+            aux=aux.append(x)
+            y=str(y)
+            y=y.zfill(digitos)
+            aux=aux.insert(1,y)
+            barcosjugador.remove(aux)
+        else:
+            print("No nos han dado")
+            matrizjugador[y-1][x-1]="A"
+        hundimiento("Computador")
+        if len(barcosjugador)==0:
+            Ganador="Computador"
+            break
+if Ganador=="Jugador":
+     print("Bien hecho camarada, habéis demostrado vuestra valia, POR LA MADRE PATRIA!!!!!")
+if Ganador=="Computadora":
+     print("NOS HAN DERROTADO, RETIRADAAAA!!!!")
