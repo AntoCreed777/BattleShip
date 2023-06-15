@@ -240,6 +240,7 @@ while True:
         while x>N or y>N or matriztirosjugador[y-1][x-1]=="X" or  matriztirosjugador[y-1][x-1]=="A":
             x=ingresonumero(f"Ingrese nuevamente la Coordenada de ataque 'X': ")
             y=ingresonumero(f"Ingrese nuevamente la Coordenada de ataque 'Y': ")
+        os.system("cls")
         if matrizcompu[y-1][x-1]=="B":
             print("Has dado en un barco")
             matriztirosjugador[y-1][x-1]="X"
@@ -262,8 +263,8 @@ while True:
         if len(barcoscomputadora)==0:
             Ganador="Jugador"
             break
-        os.system("cls")
-        mostrarmatriz(matrizcompu)
+        if N<20:
+            mostrarmatriz(matrizcompu)
         comienzo="computadora"
      if comienzo=="computadora":
         x=random.randint(1,N)
@@ -271,8 +272,9 @@ while True:
         while matriztiroscompu[y-1][x-1]=="X" or  matriztiroscompu[y-1][x-1]=="A":
             x=random.randint(1,N)
             y=random.randint(1,N)
+        print("\nEl enemigo ")
         if matrizjugador[y-1][x-1]=="B":
-            print("Nos han dado en un barco")
+            print("nos ha dado en un barco!!\n")
             matriztiroscompu[y-1][x-1]="X"
             matrizjugador[y-1][x-1]="X"
             aux=[]
@@ -292,7 +294,7 @@ while True:
                 if a==1:
                     break
         else:
-            print("No nos han dado")
+            print("no nos ha dado\n")
             matriztiroscompu[y-1][x-1]="A"
             matrizjugador[y-1][x-1]="A"
         hundimiento("Computador")
