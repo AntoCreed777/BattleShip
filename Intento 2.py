@@ -264,8 +264,7 @@ while True:
         if len(barcoscomputadora)==0:
             Ganador="Jugador"
             break
-        if N<20:
-            mostrarmatriz(matrizcompu)
+        mostrarmatriz(matriztirosjugador)
         comienzo="computadora"
      if comienzo=="computadora":
         x=random.randint(1,N)
