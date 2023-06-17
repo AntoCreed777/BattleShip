@@ -233,7 +233,7 @@ matriztirosjugador=matriz(N)
 comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
 comienzo.lower()
 while comienzo!="jugador" and comienzo!="computadora":
-     comienzo=str(input("Ingrese quien comienza: "))
+     comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
 while True:
      if comienzo=="jugador":
         x=ingresonumero(f"Ingrese la Coordenada de ataque 'X': ")
@@ -265,6 +265,7 @@ while True:
             Ganador="Jugador"
             break
         mostrarmatriz(matriztirosjugador)
+        print(f"Al enemigo le quedan {len(barcoscomputadora)} barcos.")
         comienzo="computadora"
      if comienzo=="computadora":
         x=random.randint(1,N)
@@ -298,6 +299,7 @@ while True:
             matriztiroscompu[y-1][x-1]="A"
             matrizjugador[y-1][x-1]="A"
         hundimiento("Computador")
+        print(f"Nos quedan {len(barcosjugador)} barcos.\n")
         if len(barcosjugador)==0:
             Ganador="Computador"
             break
