@@ -35,10 +35,10 @@ def barco(i,mensaje,quien,N,matriz):
         while x>N or y>N or matriz[y-1][x-1]=="B" or matriz[y-1][x-1]=="P":
             x=ingresonumero(f"Ingrese nuevamente la Coordenada Central 'X'de su {i+1}°barco: ")
             y=ingresonumero(f"Ingrese nuevamente la Coordenada Central 'Y'de su {i+1}°barco: ")
-        orientacion=str(input(f"Ingrese la horientacion de su {i+1}°Barco(V o H): "))
+        orientacion=str(input(f"Ingrese la orientación de su {i+1}°Barco(V o H): "))
         orientacion=orientacion.lower()
         while orientacion !="v" and orientacion !="h":
-            orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la horientacion de su {i+1}°Barco(V o H): "))
+            orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la orientación de su {i+1}°Barco(V o H): "))
             orientacion=orientacion.lower()
         cbarco=coordenadao(x,y,orientacion)
     if quien=="Computadora":
