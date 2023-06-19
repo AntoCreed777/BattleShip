@@ -14,7 +14,7 @@ def ingresonumero(mensaje):
             break
     return(N)
 def matriz(N):
-    aux=" "
+    aux="_"
     fila=[]
     matriz=[]
     for i in range(N):
@@ -25,7 +25,9 @@ def matriz(N):
     return(matriz)
 def mostrarmatriz(matriz):
     for i in range(-1,-(N+1),-1):
-        print(f"{matriz[i]}\n")
+        for j in range(N):
+            print(matriz[i][j],"    ",end="")
+        print("\n")
 def barco(i,mensaje,quien,N,matriz):
     if quien=="Jugador":
         if len(mensaje)!=0:
