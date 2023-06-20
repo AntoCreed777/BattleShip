@@ -1,18 +1,32 @@
 import random
 import os
+def preguntas(N):
+    if N=="":
+        return "nada"
+    if N[0]=="-":
+        return "negativo"
+    elif N.isdigit()==False:
+        return "nonum"
+    N=float(N)
+    if N==0:
+        return "escero"
+    else:
+        return True
 def ingresonumero(mensaje):
     N=str(input(f"{mensaje}"))
     while True:
-        if N=="":
-            N=str(input(f"\nPor favor, ingrese un dato\n{mensaje}"))
-        elif N[0]=="-":
-            N=str(input(f"\nSolo se aceptan numeros positivos\n{mensaje}"))
-        elif N.isdigit()==False:
-            N=str(input(f"\nSolo se aceptan numeros\n{mensaje}"))
-        else:
+        aux=preguntas(N)
+        if aux==True:
             N=int(N)
-            break
-    return(N)
+            return(N)
+        if aux=="nada":
+            N=str(input(f"\Por favor, ingrese un dato\n{mensaje}"))
+        if aux=="negativo":
+            N=str(input(f"\nSolo se aceptan numeros positivos\{mensaje}"))
+        if aux=="nonum":
+            N=str(input(f"\nSolo se aceptan numeros\n{mensaje}"))
+        if aux=="escero":
+            N=str(input(f"\nEl 0 no es valido\n{mensaje}"))
 def matriz(N):
     aux="_"
     fila=[]
@@ -233,7 +247,7 @@ matriztiroscompu=matriz(N)
 matriztirosjugador=matriz(N)
 
 comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
-comienzo.lower()
+comienzo=comienzo.lower()
 while comienzo!="jugador" and comienzo!="computadora":
      comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
 while True:
