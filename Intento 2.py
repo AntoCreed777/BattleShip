@@ -300,10 +300,10 @@ while True:
             print("no nos ha dado\n")
             matriztiroscompu[y-1][x-1]="A"
             matrizjugador[y-1][x-1]="A"
-        hundimiento("Computador")
+        hundimiento("Computadora")
         print(f"Nos quedan {len(barcosjugador)} barcos.\n")
         if len(barcosjugador)==0:
-            Ganador="Computador"
+            Ganador="Computadora"
             break
         comienzo="jugador"
 if Ganador=="Jugador":
