@@ -20,7 +20,7 @@ def ingresonumero(mensaje):
             N=int(N)
             return(N)
         if aux=="nada":
-            N=str(input(f"\Por favor, ingrese un dato\n{mensaje}"))
+            N=str(input(f"\nPor favor, ingrese un dato\n{mensaje}"))
         if aux=="negativo":
             N=str(input(f"\nSolo se aceptan numeros positivos\{mensaje}"))
         if aux=="nonum":
