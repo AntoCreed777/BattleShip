@@ -1,3 +1,9 @@
+##Integrantes:
+#Antonio Benavides
+#Pablo Villagrán
+#Renato Galan
+#Lucas Morales
+
 import random
 import os
 def preguntas(N):
