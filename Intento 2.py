@@ -6,64 +6,64 @@
 
 import random
 import os
-def preguntas(N):
-    if N=="":
+def preguntas(N):                                               #Funcion para facilitar la funcion ingreso numero()
+    if N=="":                                                   #Comprueba que se haya ingresado algun dato
         return "nada"
-    if N[0]=="-":
+    if N[0]=="-":                                               #Comprueba que no sea negativo(Esto se podria verificar con el siguiente if pero deseamos es mostrar un mensaje especial para este caso)
         return "negativo"
-    elif N.isdigit()==False:
+    elif N.isdigit()==False:                                    #Comprueba que la entrada sea un numero
         return "nonum"
     N=float(N)
-    if N==0:
+    if N==0:                                                    #Comprueba que el valor de la entrada no sea cero
         return "escero"
     else:
-        return True
-def ingresonumero(mensaje):
-    N=str(input(f"{mensaje}"))
+        return True                                             #Si llego hasta esta parte significa que el valor ingresado es correcto
+def ingresonumero(mensaje):                                     #Funcion que verifica que sea un numero valido la entrada
+    N=str(input(f"{mensaje}"))                                  #Ingreso de un dato
     while True:
-        aux=preguntas(N)
-        if aux==True:
+        aux=preguntas(N)                                        #Se llama a la funcion preguntas que retornara un dato dependiendo del caso
+        if aux==True:                                           #Si aux es True osea que el nuemro es valido, retornara ese numero en int
             N=int(N)
             return(N)
-        if aux=="nada":
+        if aux=="nada":                                         #Si ese dato no contenia nada, pide que lo vuelva a ingresar
             N=str(input(f"\nPor favor, ingrese un dato\n{mensaje}"))
-        if aux=="negativo":
+        if aux=="negativo":                                     #Si ese dato era negativo, pide que lo vuelva a ingresar
             N=str(input(f"\nSolo se aceptan numeros positivos\n{mensaje}"))
-        if aux=="nonum":
+        if aux=="nonum":                                        #Si ese dato no era un numero, pide que lo vuelva a ingresar
             N=str(input(f"\nSolo se aceptan numeros\n{mensaje}"))
-        if aux=="escero":
+        if aux=="escero":                                       #Si ese dato era un cero, pide que lo vuelva a ingresar
             N=str(input(f"\nEl 0 no es valido\n{mensaje}"))
 def matriz(N):
-    aux="_"
-    fila=[]
-    matriz=[]
+    aux="_"                                                     #Variable auxiliar que almacena "_" para rellenar la matriz
+    fila=[]                                                     #Lista que representa a una fila y que se ingresara en matriz con aux dentro de ella
+    matriz=[]                                                   #Lista que representa a la matriz
     for i in range(N):
-        fila.append(aux)
+        fila.append(aux)                                        #Se ingresa N veces aux dentro de fila
     for i in range(N):
-        fila2=fila.copy()
-        matriz.append(fila2)
-    return(matriz)
-def mostrarmatriz(matriz):
+        fila2=fila.copy()                                       #Se copia la informacion en otra lista debido a que luego si mudificabamos una coordenada se modificaba en todas las demas filas
+        matriz.append(fila2)                                    #Se ingresa N veces fila2 dentro de matriz
+    return(matriz)                                              #Retorna la matriz creada
+def mostrarmatriz(matriz):                                      #Funcion que imprime la matriz de forma limpia y como un plano cartesiano en el Cuadrante I
     for i in range(-1,-(N+1),-1):
         for j in range(N):
             print(matriz[i][j],"    ",end="")
         print("\n")
-def barco(i,mensaje,quien,N,matriz):
+def barco(i,mensaje,quien,N,matriz):                            #Funcion que crea y verifica(Solo la coordenda central) los barcos
     if quien=="Jugador":
         if len(mensaje)!=0:
-            print(mensaje)
-        x=ingresonumero(f"Ingrese la Coordenada Central 'X'de su {i+1}°barco: ")
-        y=ingresonumero(f"Ingrese la Coordenada Central 'Y'de su {i+1}°barco: ")
-        while x>N or y>N or matriz[y-1][x-1]=="B" or matriz[y-1][x-1]=="P":
-            x=ingresonumero(f"Ingrese nuevamente la Coordenada Central 'X'de su {i+1}°barco: ")
-            y=ingresonumero(f"Ingrese nuevamente la Coordenada Central 'Y'de su {i+1}°barco: ")
-        orientacion=str(input(f"Ingrese la orientación de su {i+1}°Barco(V o H): "))
-        orientacion=orientacion.lower()
-        while orientacion !="v" and orientacion !="h":
+            print(mensaje)                                      #Si hay un mensaje que mostrar, lo muestra
+        x=ingresonumero(f"Ingrese la Coordenada Central 'X'de su {i+1}°barco: ")    #Se ingresa la coordenada en X
+        y=ingresonumero(f"Ingrese la Coordenada Central 'Y'de su {i+1}°barco: ")    #Se ingresa la coordenada en Y
+        while x>N or y>N or matriz[y-1][x-1]=="B" or matriz[y-1][x-1]=="P":         #Verifica la valides de esas coordenadas
+            x=ingresonumero(f"Ingrese nuevamente la Coordenada Central 'X'de su {i+1}°barco: ") #Se ingresa nuevamente la coordenada en X
+            y=ingresonumero(f"Ingrese nuevamente la Coordenada Central 'Y'de su {i+1}°barco: ") #Se ingresa nuevamente la coordenada en Y
+        orientacion=str(input(f"Ingrese la orientación de su {i+1}°Barco(V o H): "))    #Se ingresa la orientacion del barco
+        orientacion=orientacion.lower() #Lo convierte en minusculas para aceptar las palabras sin importar como la escriban
+        while orientacion !="v" and orientacion !="h":  #Verifica que hayan ingresado una orientacion valida
             orientacion=str(input(f"----------\nValor erroneo, vuelva a ingresarlo\nIngrese la orientación de su {i+1}°Barco(V o H): "))
             orientacion=orientacion.lower()
-        cbarco=coordenadao(x,y,orientacion)
-    if quien=="Computadora":
+        cbarco=coordenadao(x,y,orientacion)     #LLama a la funcion coordenadao debolviendo todas las coordenadas del barco 
+    if quien=="Computadora":            #Lo mismo que en jugador, pero randomizado
         x=random.randint(1,N)
         y=random.randint(1,N)
         while matriz[y-1][x-1]=="B" or matriz[y-1][x-1]=="P":
@@ -72,8 +72,8 @@ def barco(i,mensaje,quien,N,matriz):
         orientaciones=["v","h"]
         orientacion=random.choice(orientaciones)
         cbarco=coordenadao(x,y,orientacion)
-    return(cbarco)
-def coordenadao(x,y,orientacion):
+    return(cbarco)                                      #Retorna las coordenadas del barco
+def coordenadao(x,y,orientacion):                               #Funcion que genera las coordenadas de todo un barco
     cbarco=[]
     c=[]
     if orientacion=="v":
@@ -93,7 +93,7 @@ def coordenadao(x,y,orientacion):
             x=x+1
             c=[]
     return(cbarco)
-def validacionbarco(cbarco,matriz):
+def validacionbarco(cbarco,matriz):                             #Funcion que valida las coordenadas de todo un barco
     for j in range(3):
         if cbarco[j][1]==0 or cbarco[j][0]==0:
             return(False)
@@ -102,12 +102,12 @@ def validacionbarco(cbarco,matriz):
         elif matriz[(cbarco[j][1])-1][(cbarco[j][0])-1]=="B" or matriz[(cbarco[j][1])-1][(cbarco[j][0])-1]=="P":
             return(False)
     return(True)
-def perimetro1(cbarco,digitos):
+def perimetro1(cbarco,digitos):                                 #Funcion que genera el perimetro de un barco pero con Strings
      perimetro=[]
      coordenadas=[]
      for i in range(3):
          aux=str(cbarco[i][0]).zfill(digitos)+str(cbarco[i][1]).zfill(digitos)
-         coordenadas.insert(0,aux)
+         coordenadas.insert(0,aux)                              #El formato de las coordenadas en Strings es XXYY
      for i in range(3):
         perimetro.insert(1,coordenadas[i])
         x=coordenadas[i]
@@ -156,7 +156,7 @@ def perimetro1(cbarco,digitos):
      for i in range(c):
         perimetro.remove("")
      return(perimetro)     
-def perimetro2(cbarco,digitos,matriz):
+def perimetro2(cbarco,digitos,matriz):                          #Funcion que coloca P de perimetro en donde le indica la funcion perimetro1()
     c=perimetro1(cbarco,digitos)
     for i in range(len(c)):
         x=int(c[i])//(10**digitos)-1
@@ -164,7 +164,7 @@ def perimetro2(cbarco,digitos,matriz):
         if x<len(matriz) and y<len(matriz) and y>=0 and x>=0:
             matriz[y][x]="P"
     return(matriz)
-def hundimiento(quien):
+def hundimiento(quien):                                         #Funcion que verifica si un barco se hundio(y luego lo elimina) o no
      if quien=="Jugador":
           for i in range(len(barcoscomputadora)):
                if len(barcoscomputadora[i])==0:
@@ -188,21 +188,21 @@ while x!=0:
     x=x//10
     digitos=digitos+1
 
-matrizjugadorByP=matriz(N)      #Genera una matriz hecha por listas de N Filas y N Columnas 
-matrizjugador=matriz(N)
-matrizcompuByP=matriz(N)
-matrizcompu=matriz(N)
+matrizjugadorByP=matriz(N)      #Genera la matriz del jugador para sus barcos y perimetro hecha por listas de N Filas y N Columnas 
+matrizjugador=matriz(N)         #Genera la matriz del jugador sin barcos ni perimetro hecha por listas de N Filas y N Columnas
+matrizcompuByP=matriz(N)        #Genera la matriz de la computadora para sus barcos y perimetro hecha por listas de N Filas y N Columnas
+matrizcompu=matriz(N)           #Genera la matriz de la computadora sin barcos ni perimetro hecha por listas de N Filas y N Columnas
 
 barcostotales=ingresonumero("Ingrese la cantidad de barcos en juego por jugador: ")     #Ingreso de la cantidad de barcos por jugdor
-while barcostotales<2 or barcostotales>N:
+while barcostotales<2 or barcostotales>N:   #Valida que el valor este dentro del rango
     barcostotales=ingresonumero(f"----------\nValor fuera de rango\nDebe ser mayor o igual a 2 y menor o igual a {N}\nIngrese la cantidad de barcos en juego por jugador: ")
 
 
 #########################################################
 #PARTE DE ASIGNACION DEL JUGADOR#
 #########################################################
-barcosjugador=[]
-barcoa=[]
+barcosjugador=[]            #Lista donde se guardaran las listas de los barcos del jugador
+barcoa=[]                   #Lista auxiliar que almacena las coordenadas de un solo barco las cuales se ingresaran en barcosjugador
 for i in range(barcostotales):
     cbarco=barco(i,"","Jugador",N,matrizjugadorByP)
     while validacionbarco(cbarco,matrizjugadorByP)==False:
@@ -220,14 +220,14 @@ for i in range(barcostotales):
         matrizjugadorByP=perimetro2(cbarco,digitos,matrizjugadorByP)
         os.system("cls")
     print(f"Estas son las coordenadas de su barco{cbarco}")
-    mostrarmatriz(matrizjugadorByP)
+    mostrarmatriz(matrizjugadorByP)         #Muestra la matriz donde se estan guardando los barcos
     
 #########################################################
 #PARTE DE ASIGNACION DE LA COMPUTADORA#
 #########################################################
-barcoscomputadora=[]
-barcoa=[]
-for i in range(barcostotales):
+barcoscomputadora=[]        #Lista donde se guardaran las listas de los barcos de la compuatdora
+barcoa=[]                   #Lista auxiliar que almacena las coordenadas de un solo barco las cuales se ingresaran en barcoscomputadora
+for i in range(barcostotales):  #genera los barcos de forma random
     cbarco=barco(i,"","Computadora",N,matrizcompuByP)
     while validacionbarco(cbarco,matrizcompuByP)==False:
         cbarco=barco(i,"","Computadora",N,matrizcompuByP)
@@ -249,26 +249,26 @@ for i in range(barcostotales):
 #########################################################
 #PARTE DE JUEGO#
 #########################################################
-matriztiroscompu=matriz(N)
-matriztirosjugador=matriz(N)
+matriztiroscompu=matriz(N)      #Genera la matriz de tiros de la computadora hecha por listas de N Filas y N Columnas
+matriztirosjugador=matriz(N)    #Genera la matriz de tiros del jugador hecha por listas de N Filas y N Columnas
 
-comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
+comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))  #Se ingresa quien comienza con el juego
 comienzo=comienzo.lower()
-while comienzo!="jugador" and comienzo!="computadora":
+while comienzo!="jugador" and comienzo!="computadora":  #Se verifica que este bien ingresado
      comienzo=str(input("Ingrese quien comienza(jugador o computadora): "))
-while True:
+while True:         #Bucle de los turnos de juego
      if comienzo=="jugador":
-        x=ingresonumero(f"Ingrese la Coordenada de ataque 'X': ")
+        x=ingresonumero(f"Ingrese la Coordenada de ataque 'X': ")   #Se ingresan las coordenadas de ataque
         y=ingresonumero(f"Ingrese la Coordenada de ataque 'Y': ")
-        while x>N or y>N or matriztirosjugador[y-1][x-1]=="X" or  matriztirosjugador[y-1][x-1]=="A":
+        while x>N or y>N or matriztirosjugador[y-1][x-1]=="X" or  matriztirosjugador[y-1][x-1]=="A":    #Se verifican esas coordenadas
             x=ingresonumero(f"Ingrese nuevamente la Coordenada de ataque 'X': ")
             y=ingresonumero(f"Ingrese nuevamente la Coordenada de ataque 'Y': ")
-        os.system("cls")
+        os.system("cls")        #Se limpia la terminal para que se vea mas pulido la interfas de juego
         if matrizcompu[y-1][x-1]=="B":
             print("Has dado en un barco")
             matriztirosjugador[y-1][x-1]="X"
             matrizcompu[y-1][x-1]="X"
-            aux=str(x).zfill(digitos)+str(y).zfill(digitos)
+            aux=str(x).zfill(digitos)+str(y).zfill(digitos)         #Transforma la coordenada a un formato de String para poder eliminarla de la lista de los barcos
             for i in range(len(barcoscomputadora)):
                 a=0
                 for j in range(len(barcoscomputadora[i])):
@@ -282,14 +282,14 @@ while True:
             print("Has dado al agua")
             matriztirosjugador[y-1][x-1]="A"
             matrizcompu[y-1][x-1]="A"
-        hundimiento("Jugador")
-        if len(barcoscomputadora)==0:
-            Ganador="Jugador"
+        hundimiento("Jugador")                                  #Verifica si se a hundido algun barco en este turno 
+        if len(barcoscomputadora)==0:                           #verifica que a la computadora le queden barcos
+            Ganador="Jugador"                                   #Si no le quedan da por ganador al jugador
             break
-        mostrarmatriz(matriztirosjugador)
+        mostrarmatriz(matriztirosjugador)                       #Muestra la matriz en que se almacena donde se a disparado hasta el momento
         print(f"Al enemigo le quedan {len(barcoscomputadora)} barcos.")
         comienzo="computadora"
-     if comienzo=="computadora":
+     if comienzo=="computadora":        #Lo mismo que en la parte del jugador, pero con todos los valores en random
         x=random.randint(1,N)
         y=random.randint(1,N)
         while matriztiroscompu[y-1][x-1]=="X" or  matriztiroscompu[y-1][x-1]=="A":
@@ -326,7 +326,7 @@ while True:
             Ganador="Computadora"
             break
         comienzo="jugador"
-if Ganador=="Jugador":
+if Ganador=="Jugador":      #Mensaje si el jugador gana
      print("Bien hecho camarada, habéis demostrado vuestra valia, POR LA MADRE PATRIA!!!!!")
-if Ganador=="Computadora":
+if Ganador=="Computadora":  #Mensaje si la computadora gana
      print("NOS HAN DERROTADO, RETIRADAAAA!!!!")
